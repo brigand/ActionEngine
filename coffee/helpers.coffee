@@ -20,3 +20,21 @@ this.ae.helpers =
     # Check if we have the keycode
     key_codes[e.which] or null
 
+  # Resize the window keeping an aspect ratio of 16:9
+  resize: (id) ->
+    ae.sizer = ae.sizer or document.getElementById(id)
+    ae.canvas = ae.canvas or document.getElementsByTagName('canvas')[0]
+    cw = window.innerWidth
+    ch = window.innerHeight
+
+    # Landscape
+    if (cw / ch > 16/9)
+      ae.sizer.width = ch
+      ae.sizer.height = 16 / 9 * ch
+      ae.canvas.className = "landscape"
+    # Portrait
+    else
+      ae.sizer.width = cw
+      ae.sizer.height = 9 / 16 * cw
+
+

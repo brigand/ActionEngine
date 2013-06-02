@@ -16,6 +16,5 @@ movement = root.actions.movement =
   up: (speed) ->
     speed = arguments[0] or 20
     (game, delta) ->
-      console.log(game.events)
       this.y -= speed * delta
 
