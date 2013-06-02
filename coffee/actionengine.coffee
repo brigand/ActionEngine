@@ -4,8 +4,12 @@ class root.Game
   constructor: (@options) ->
     @parseOptions @options
     @events = []
-    document.addEventListener "keydown", (e) => @events.push String.fromCharCode(e.which).toLowerCase()
-    document.addEventListener "keyup", (e) => @events = @events.filter (x) -> x isnt String.fromCharCode(e.which).toLowerCase()
+
+    document.addEventListener "keydown", (e) =>
+      c = ae.helpers.key_event_to_char e
+      @events.push c if c not in @events
+    document.addEventListener "keyup", (e) => @events = @events.filter (x) -> x isnt ae.helpers.key_event_to_char e
+
     createjs.Ticker.addEventListener "tick", @tick.bind(this)
 
   tick: (event) ->
