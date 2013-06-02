@@ -3,29 +3,12 @@
 <head>
     <title>ActionEngine Example</title>
     <style>
-        body, html {
-            width: 100%;
-            height: 100%;
-            background: #a9a9a9;
-            margin: 0;
-            padding: 0;
-        }
-
-        canvas {
-            padding: 0;
-            height: 100%;
-            background: white;
-            margin: 0 auto;
-            display: block;
-        }
-
-        canvas.vertical {
-            height: auto;
-            width: 100%;
-        }
+        body, html { width: 100%; height: 100%; background: #a9a9a9; margin: 0; padding: 0; }
+        canvas { padding: 0; height: 100%; background: white; margin: 0 auto; display: block; }
+        canvas.vertical { height: auto; width: 100%; }
     </style>
 </head>
-<body onresize="resize()">
+<body onresize="ae.helpers.resize('sizer')" onload="ae.helpers.resize('sizer')">
 <div id="sizer">
     <canvas id="actionenginecanvas" width=800 height=450></canvas>
 </div>
@@ -34,43 +17,19 @@
 <script src="build/actions.movement.js"></script>
 <script src="lib/create.js"></script>
 <script>
-    function resize(){
-        var sizer = document.getElementById("sizer");
-        var cw = window.innerWidth;
-        var ch = window.innerHeight;
-        var sw, sh, marginTop = 0, marginLeft = 0;
-
-        // Landscape
-        if (cw / ch > 16/9) {
-            sh = ch;
-            sw = ch * (16/9);
-            document.getElementsByTagName('canvas')[0].className = "horizontal";
-        }
-        else {
-            sw = cw;
-            sh = 9 / 16 * cw;
-            document.getElementsByTagName('canvas')[0].className = "vertical";
-        }
-
-        sizer.width = sw;
-        sizer.height = sh;
-        console.log(sw, sh, cw, ch);
-    };
-    resize();
-
     var props = {
         element: "actionenginecanvas",
         objects: [
             {
                 shape: "circle",
                 color: "red",
-                w: 50,
+                w: 100,
                 x: 50,
                 y: 400,
                 actions: {
                     "w": actions.movement.up(30),
                     "a": actions.movement.left(50),
-                    "d": actions.movement.right(50),
+                    "d": actions.movement.right(500),
                     "s": actions.movement.down(30)
                 }
             },
@@ -80,6 +39,22 @@
                 y: 10,
                 color: "black",
                 font: "20px arial"
+            },
+            {
+                shape: "square",
+                color: "blue",
+                thickness: 5,
+                strokeColor: "black",
+                w: 100,
+                x: 0,
+                y: 0,
+                pivot: [50, 450],
+                actions: {
+                    r: function(game, delta){
+                        this.rotation += 90 * delta;
+                        if (this.rotation < 160 || this.rotation > 290) this.rotation = 160;
+                    }
+                }
             }
         ]
     };
