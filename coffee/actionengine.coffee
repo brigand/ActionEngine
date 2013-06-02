@@ -33,6 +33,7 @@ class root.Game
     @stage.update()
 
   parseObject: (o, preventUpdate) ->
+    # Determine graphic type based on provided information
     o.graphic =
       if o.image
         new createjs.Bitmap o.image
@@ -43,12 +44,13 @@ class root.Game
       else
         new createjs.Shape
 
+    # Determine line strokes, or do nothing if we don't have data
+    o.graphic.graphics.setStrokeStyle(o.thickness) if o.thickness
+    o.graphic.graphics.beginStroke(o.strokeColor) if o.strokeColor
+
     # Draw our shapes
     if o.shape
-      # Determine line strokes, or do nothing if we don't have data
       o.graphic.graphics.beginFill(o.color) if o.color
-      o.graphic.graphics.setStrokeStyle(o.thickness) if o.thickness
-      o.graphic.graphics.beginStroke(o.strokeColor) if o.strokeColor
 
       # Draw basic shapes depending on the "shape" property
       # Automatically choose beteween circle/square and eclipse/rectangle based on just width/height or both
@@ -61,12 +63,35 @@ class root.Game
         o.graphic.graphics.rect(0, 0, o.w, o.h) if (o.w and o.h)
 
       # If we have a strokeColor, we began the stroke, so now we end it
-      o.graphic.graphics.endStroke() if o.strokeColor
+    o.graphic.graphics.endStroke() if o.strokeColor
 
     @stage.update() unless preventUpdate?
 
     o.graphic.x = o.x or 0
     o.graphic.y = o.y or 0
+
+    # Determine pivot type (if one is given)
+    # First, do we have coordinates?
+    if typeof o.pivot is "object" and o.pivot.length is 2
+      o.graphic.regX = o.pivot[0]
+      o.graphic.regX = o.pivot[1]
+
+    # pivot: "center" is a shortcut to having it centered on both axis
+    else if o.pivot is "center" or o.pivot is "middle"
+      o.graphic.regX = (o.w or 0) / 2 or (o.h) / 2
+      o.graphic.regY = (o.h or 0) / 2 or (o.w) / 2
+
+    # Otherwise we hope to have some combination of a X and/or Y description, like top-right or bottom-middle
+    else if typeof o.pivot is "string"
+      parts = o.pivot.split "-"
+      for p in parts
+        switch p
+          when "left" then o.graphic.regX = 0
+          when "top" then o.graphic.regY = 0
+          when "right" then o.graphic.regX = o.w or o.h
+          when "bottom" then o.graphic.regY = o.h or o.w
+          when "center" then o.graphic.regX = (o.w or 0) / 2 or (o.h) / 2
+          when "middle" then o.graphic.regY = (o.h or 0) / 2 or (o.w) / 2
 
     if o.actions
       for a, k in o.actions
