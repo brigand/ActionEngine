@@ -27,7 +27,6 @@
     up: function(speed) {
       speed = arguments[0] || 20;
       return function(game, delta) {
-        console.log(delta, speed);
         return this.y -= speed * delta;
       };
     }
