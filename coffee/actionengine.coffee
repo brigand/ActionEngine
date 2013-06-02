@@ -64,8 +64,10 @@ class root.Game
     o.graphic.x = o.x or 0
     o.graphic.y = o.y or 0
 
-    for a, k in o.actions
-      o.actions[k] = a.bind o.graphic
+    if o.actions
+      for a, k in o.actions
+        o.actions[k] = a.bind o.graphic
+    else o.actions = []
 
     o.graphic.o = o
     o.graphic.game = this
