@@ -54,7 +54,7 @@ class root.Game
       # Automatically choose beteween circle/square and eclipse/rectangle based on just width/height or both
       console.error o, "requires a w (width) and/or h (height) to be a #{o.shape}" if o.shape and not (o.w or o.w)
       if o.shape is "circle" or o.shape is "oval" or o.shape is "ellipse"
-        o.graphic.graphics.drawCircle(0, 0, o.w or o.h) if (o.w or o.h) and not (o.w and o.h)
+        o.graphic.graphics.drawCircle(0, 0, (o.w or o.h) / 2) if (o.w or o.h) and not (o.w and o.h)
         o.graphic.graphics.drawEllipse(0, 0, o.w, o.h) if (o.w and o.h)
       if o.shape is "square" or o.shape is "rectangle"
         o.graphic.graphics.rect(0, 0, o.w or o.h, o.w or o.h) if (o.w or o.h) and not (o.w and o.h)
