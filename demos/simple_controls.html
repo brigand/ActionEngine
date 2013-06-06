@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ActionEngine Example</title>
+    <style>
+        body, html { width: 100%; height: 100%; background: #a9a9a9; margin: 0; padding: 0; }
+        canvas { padding: 0; height: 100%; background: white; margin: 0 auto; display: block; }
+        canvas.vertical { height: auto; width: 100%; }
+    </style>
+</head>
+<body onresize="ae.helpers.resize('sizer')" onload="ae.helpers.resize('sizer')">
+<div id="sizer">
+    <canvas id="actionenginecanvas" width=800 height=450></canvas>
+</div>
+<script src="../build/helpers.js"></script>
+<script src="../build/conditionals.js"></script>
+<script src="../build/actionengine.js"></script>
+<script src="../build/actions.movement.js"></script>
+<script src="../build/actions.text.js"></script>
+<script src="../lib/create.js"></script>
+<script src="build/simple_controls.js"></script>
+</body>
+</html>

@@ -25,7 +25,7 @@
     }
 
     Game.prototype.tick = function(event) {
-      var e, o, _i, _j, _len, _len2, _ref, _ref2;
+      var a, e, o, _i, _j, _k, _len, _len2, _len3, _ref, _ref2, _ref3;
       _ref = this.objects;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         o = _ref[_i];
@@ -34,6 +34,16 @@
           e = _ref2[_j];
           if (typeof o.actions[e] !== "undefined") {
             o.actions[e].call(o.graphic, this, event.delta / 1000);
+          }
+        }
+        if (o.actions.always != null) {
+          o.actions.always.call(o.graphic, this, event.delta / 1000);
+        }
+        if (typeof o.actions["if"] === "object" && typeof o.actions["if"].length === "number") {
+          _ref3 = o.actions["if"];
+          for (_k = 0, _len3 = _ref3.length; _k < _len3; _k++) {
+            a = _ref3[_k];
+            a.exec([this, event.delta / 1000], window.q = o.graphic);
           }
         }
       }

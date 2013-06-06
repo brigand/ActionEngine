@@ -6,28 +6,28 @@
   root.actions = root.actions || {};
 
   movement = root.actions.movement = {
-    left: function(speed) {
+    left: function(speed, now) {
       speed = arguments[0] || 20;
       return function(game, delta) {
-        return this.x -= speed * delta;
+        return this.x -= speed * (now == null ? delta : 1);
       };
     },
-    right: function(speed) {
+    right: function(speed, now) {
       speed = arguments[0] || 20;
       return function(game, delta) {
-        return this.x += speed * delta;
+        return this.x += speed * (now == null ? delta : 1);
       };
     },
-    down: function(speed) {
+    down: function(speed, now) {
       speed = arguments[0] || 20;
       return function(game, delta) {
-        return this.y += speed * delta;
+        return this.y += speed * (now == null ? delta : 1);
       };
     },
-    up: function(speed) {
+    up: function(speed, now) {
       speed = arguments[0] || 20;
       return function(game, delta) {
-        return this.y -= speed * delta;
+        return this.y -= speed * (now == null ? delta : 1);
       };
     }
   };
