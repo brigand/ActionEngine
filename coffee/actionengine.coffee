@@ -14,8 +14,18 @@ class root.Game
 
   tick: (event) ->
     for o in @objects
+      # Key Press Actions
       for e in @events
         o.actions[e].call(o.graphic, this, event.delta / 1000) if typeof o.actions[e]  isnt "undefined"
+
+      # Always actions happen every frame
+      o.actions.always.call(o.graphic, this, event.delta / 1000) if o.actions.always?
+
+      # Execute conditional actions
+      if typeof o.actions.if is "object" and typeof o.actions.if.length is "number"
+        for a in o.actions.if
+          a.exec([this, event.delta / 1000], window.q=o.graphic)
+
 
     @stage.update()
 
